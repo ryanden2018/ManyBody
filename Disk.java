@@ -31,18 +31,4 @@ class Disk {
     return ((disk1.radius+disk2.radius) > dist);
   }
 
-  /* adjustDisks(Disk disk1, Disk disk2, double vx1, double vy1, double vx2, double vy2)
-   * The input is two overlapping disks with velocities (vx1,vy1) and (vx2,vy2) respectively.
-   * The incoming disks are mutated in-place to cause them to meet tangentially; if they did
-   * not initially overlap, neither one is changed and 0.0 is returned.
-   * After adjustment, the time of backtracking required to cause a tangential meet is returned.
-   */
-  static double adjustDisks(Disk disk1, Disk disk2, double vx1, double vy1, double vx2, double vy2) {
-    if(!Disk.disksOverlap(disk1,disk2)) {
-      return 0.0;
-    }
-
-    // TODO: finish
-    return 0.0; ////////
-  } 
 }
