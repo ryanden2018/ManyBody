@@ -4,6 +4,7 @@ class ManyBodyData {
   double[] vx; // x velocity component
   double[] vy; // y velocity component
   double dt; // time step
+  int width;
 
   ManyBodyData(int width, double diskRadius, int N, double dt) {
     // double bigDiskRadius = width * multiplier * 0.5;
@@ -16,6 +17,7 @@ class ManyBodyData {
     disks = new Disk[N];
     vx = new double[N];
     vy = new double[N];
+    this.width = width;
     this.dt = dt;
 
     for(int i=0; i < disks.length; i++) {
@@ -35,7 +37,16 @@ class ManyBodyData {
   }
 
   boolean everyoneInBounds() {
-    return true; // FIXME
+    for(int i = 0; i < disks.length; i++) {
+      if( (disks[i]!=null) &&
+        ( (disks[i].getCenterX() < disks[i].getRadius()) 
+           || (disks[i].getCenterX() > width-disks[i].getRadius())
+           || (disks[i].getCenterY() < disks[i].getRadius())
+           || (disks[i].getCenterY() > width-disks[i].getRadius()) ) ) {
+        return false;
+      }
+    }
+    return true;
   }
 
   boolean existsOverlap() {
@@ -54,6 +65,22 @@ class ManyBodyData {
     for(int i = 0; i < disks.length; i++) {
       disks[i].displaceX(vx[i]*dt);
       disks[i].displaceY(vy[i]*dt);
+
+      if( disks[i].getCenterX() < disks[i].getRadius() ) {
+        vx[i] = -vx[i];
+      }
+
+      if(disks[i].getCenterX() > width-disks[i].getRadius() ) {
+        vx[i] = -vx[i];
+      }
+
+      if(disks[i].getCenterY() < disks[i].getRadius() ) {
+        vy[i] = -vy[i];
+      }
+
+      if(disks[i].getCenterY() > width-disks[i].getRadius() ) {
+        vy[i] = -vy[i];
+      }
     }
 
     // Disk bigDisk = new Disk();
