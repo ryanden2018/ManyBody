@@ -59,19 +59,19 @@ class ManyBodyData {
       disks[i].displaceX(vx[i]*dt);
       disks[i].displaceY(vy[i]*dt);
 
-      if( disks[i].getCenterX() < disks[i].getRadius() ) {
+      if( (disks[i].getCenterX() < disks[i].getRadius()) && (vx[i]<0) ) {
         vx[i] = -vx[i];
       }
 
-      if(disks[i].getCenterX() > width-disks[i].getRadius() ) {
+      if((disks[i].getCenterX() > width-disks[i].getRadius()) && (vx[i]>0) ) {
         vx[i] = -vx[i];
       }
 
-      if(disks[i].getCenterY() < disks[i].getRadius() ) {
+      if((disks[i].getCenterY() < disks[i].getRadius()) && (vy[i]<0) ) {
         vy[i] = -vy[i];
       }
 
-      if(disks[i].getCenterY() > width-disks[i].getRadius() ) {
+      if((disks[i].getCenterY() > width-disks[i].getRadius()) && (vy[i]>0) ) {
         vy[i] = -vy[i];
       }
     }
