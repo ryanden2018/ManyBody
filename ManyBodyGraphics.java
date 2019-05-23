@@ -15,6 +15,12 @@ class ManyBodyGraphics extends JComponent {
     mbd = new ManyBodyData(WIDTH,DISK_RADIUS,N,DT);
   }
 
+  void drawDisk(Graphics g,Disk disk,double horizOffset,double vertOffset) {
+    g.fillOval((int) (disk.getCenterX()-disk.getRadius()+horizOffset), 
+        (int) (disk.getCenterY()-disk.getRadius()+vertOffset),
+        (int) (2.0*disk.getRadius()), (int) (2.0*disk.getRadius()) );
+  }
+
   @Override
   public void paintComponent(Graphics g) {
     mbd.update();
@@ -22,35 +28,15 @@ class ManyBodyGraphics extends JComponent {
     super.paintComponent(g);
   
     for(int i = 0; i < mbd.disks.length; i++) {
-      // fill out 3x3 grid surrounding the display window
-      g.fillOval((int) (mbd.disks[i].getCenterX()-mbd.disks[i].getRadius()), 
-        (int) (mbd.disks[i].getCenterY()-mbd.disks[i].getRadius()),
-        (int) (2.0*mbd.disks[i].getRadius()), (int) (2.0*mbd.disks[i].getRadius()) );
-      g.fillOval((int) (mbd.disks[i].getCenterX()-mbd.disks[i].getRadius()+WIDTH), 
-        (int) (mbd.disks[i].getCenterY()-mbd.disks[i].getRadius()),
-        (int) (2.0*mbd.disks[i].getRadius()), (int) (2.0*mbd.disks[i].getRadius()) );
-      g.fillOval((int) (mbd.disks[i].getCenterX()-mbd.disks[i].getRadius()-WIDTH), 
-        (int) (mbd.disks[i].getCenterY()-mbd.disks[i].getRadius()),
-        (int) (2.0*mbd.disks[i].getRadius()), (int) (2.0*mbd.disks[i].getRadius()) );
-      g.fillOval((int) (mbd.disks[i].getCenterX()-mbd.disks[i].getRadius()), 
-        (int) (mbd.disks[i].getCenterY()-mbd.disks[i].getRadius()+HEIGHT),
-        (int) (2.0*mbd.disks[i].getRadius()), (int) (2.0*mbd.disks[i].getRadius()) );
-      g.fillOval((int) (mbd.disks[i].getCenterX()-mbd.disks[i].getRadius()), 
-        (int) (mbd.disks[i].getCenterY()-mbd.disks[i].getRadius()-HEIGHT),
-        (int) (2.0*mbd.disks[i].getRadius()), (int) (2.0*mbd.disks[i].getRadius()) );
-      g.fillOval((int) (mbd.disks[i].getCenterX()-mbd.disks[i].getRadius()+WIDTH), 
-        (int) (mbd.disks[i].getCenterY()-mbd.disks[i].getRadius()+HEIGHT),
-        (int) (2.0*mbd.disks[i].getRadius()), (int) (2.0*mbd.disks[i].getRadius()) );
-      g.fillOval((int) (mbd.disks[i].getCenterX()-mbd.disks[i].getRadius()+WIDTH), 
-        (int) (mbd.disks[i].getCenterY()-mbd.disks[i].getRadius()-HEIGHT),
-        (int) (2.0*mbd.disks[i].getRadius()), (int) (2.0*mbd.disks[i].getRadius()) );
-      g.fillOval((int) (mbd.disks[i].getCenterX()-mbd.disks[i].getRadius()-WIDTH), 
-        (int) (mbd.disks[i].getCenterY()-mbd.disks[i].getRadius()-HEIGHT),
-        (int) (2.0*mbd.disks[i].getRadius()), (int) (2.0*mbd.disks[i].getRadius()) );
-      g.fillOval((int) (mbd.disks[i].getCenterX()-mbd.disks[i].getRadius()-WIDTH), 
-        (int) (mbd.disks[i].getCenterY()-mbd.disks[i].getRadius()+HEIGHT),
-        (int) (2.0*mbd.disks[i].getRadius()), (int) (2.0*mbd.disks[i].getRadius()) );
-      
+      drawDisk(g,mbd.disks[i],0.0,0.0);
+      drawDisk(g,mbd.disks[i],WIDTH,0.0);
+      drawDisk(g,mbd.disks[i],-WIDTH,0.0);
+      drawDisk(g,mbd.disks[i],0.0,HEIGHT);
+      drawDisk(g,mbd.disks[i],0.0,-HEIGHT);
+      drawDisk(g,mbd.disks[i],WIDTH,HEIGHT);
+      drawDisk(g,mbd.disks[i],WIDTH,-HEIGHT);
+      drawDisk(g,mbd.disks[i],-WIDTH,HEIGHT);
+      drawDisk(g,mbd.disks[i],-WIDTH,-HEIGHT);
     }
   }
 }

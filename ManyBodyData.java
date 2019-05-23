@@ -80,24 +80,13 @@ class ManyBodyData {
       for(int j = 0; j < disks.length; j++) {
         if( (i<j) && Disk.disksOverlap(disks[i],disks[j],width) ) {
           double t = Disk.backtrackTime(disks[i],disks[j],vx[i],vy[i],vx[j],vy[j],width);
-          t = 0.0; ////// DEBUG
           disks[i].displaceX(-t*vx[i]);
           disks[i].displaceY(-t*vy[i]);
           disks[j].displaceX(-t*vx[j]);
           disks[j].displaceY(-t*vy[j]);
 
-          double nx = disks[i].getCenterX() - disks[j].getCenterX();
-          double ny = disks[i].getCenterY() - disks[j].getCenterY();
-          if( nx > width/2.0 ) {
-            nx = nx - width;
-          } else if (nx <= -width/2.0) {
-            nx = nx + width;
-          } 
-          if( ny > width/2.0 ) {
-            ny = ny - width;
-          } else if (ny <= -width/2.0) {
-            ny = ny + width;
-          } 
+          double nx = Disk.fixDisp(disks[i].getCenterX() - disks[j].getCenterX(),width);
+          double ny = Disk.fixDisp(disks[i].getCenterY() - disks[j].getCenterY(),width);
           double nabs = Math.sqrt(Math.pow(nx,2)+Math.pow(ny,2));
           nx = nx / nabs;
           ny = ny / nabs;
