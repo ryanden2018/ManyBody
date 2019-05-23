@@ -7,7 +7,7 @@ class ManyBodyGraphics extends JComponent {
   int HEIGHT = WIDTH;
   int DISK_RADIUS = 20;
   int N = 40;
-  double DT = 0.2;
+  double DT = 1.0;
   ManyBodyData mbd;
 
   ManyBodyGraphics() {
