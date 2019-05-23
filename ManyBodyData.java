@@ -46,7 +46,7 @@ class ManyBodyData {
     for(int i = 0; i < disks.length; i++) {
       for(int j = 0; j < disks.length; j++) {
         if( (i!=j) && (disks[i]!=null) && (disks[j]!=null)
-            && Disk.disksOverlap(disks[i],disks[j])) {
+            && Disk.disksOverlap(disks[i],disks[j],width)) {
           return true;
         }
       }
@@ -59,28 +59,45 @@ class ManyBodyData {
       disks[i].displaceX(vx[i]*dt);
       disks[i].displaceY(vy[i]*dt);
 
-      if( (disks[i].getCenterX() < disks[i].getRadius()) && (vx[i]<0) ) {
-        vx[i] = -vx[i];
+      if( (disks[i].getCenterX() < 0) && (vx[i]<0) ) {
+        disks[i].setCenterX(disks[i].getCenterX()+width);
       }
 
-      if((disks[i].getCenterX() > width-disks[i].getRadius()) && (vx[i]>0) ) {
-        vx[i] = -vx[i];
+      if((disks[i].getCenterX() > width) && (vx[i]>0) ) {
+        disks[i].setCenterX(disks[i].getCenterX()-width);
       }
 
-      if((disks[i].getCenterY() < disks[i].getRadius()) && (vy[i]<0) ) {
-        vy[i] = -vy[i];
+      if((disks[i].getCenterY() < 0) && (vy[i]<0) ) {
+        disks[i].setCenterY(disks[i].getCenterY()+width);
       }
 
-      if((disks[i].getCenterY() > width-disks[i].getRadius()) && (vy[i]>0) ) {
-        vy[i] = -vy[i];
+      if((disks[i].getCenterY() > width) && (vy[i]>0) ) {
+        disks[i].setCenterY(disks[i].getCenterY()-width);
       }
     }
 
     for(int i = 0; i < disks.length; i++) {
       for(int j = 0; j < disks.length; j++) {
-        if( (i<j) && Disk.disksOverlap(disks[i],disks[j]) ) {
+        if( (i<j) && Disk.disksOverlap(disks[i],disks[j],width) ) {
+          double t = Disk.backtrackTime(disks[i],disks[j],vx[i],vy[i],vx[j],vy[j],width);
+          t = 0.0; ////// DEBUG
+          disks[i].displaceX(-t*vx[i]);
+          disks[i].displaceY(-t*vy[i]);
+          disks[j].displaceX(-t*vx[j]);
+          disks[j].displaceY(-t*vy[j]);
+
           double nx = disks[i].getCenterX() - disks[j].getCenterX();
           double ny = disks[i].getCenterY() - disks[j].getCenterY();
+          if( nx > width/2.0 ) {
+            nx = nx - width;
+          } else if (nx <= -width/2.0) {
+            nx = nx + width;
+          } 
+          if( ny > width/2.0 ) {
+            ny = ny - width;
+          } else if (ny <= -width/2.0) {
+            ny = ny + width;
+          } 
           double nabs = Math.sqrt(Math.pow(nx,2)+Math.pow(ny,2));
           nx = nx / nabs;
           ny = ny / nabs;
@@ -91,6 +108,11 @@ class ManyBodyData {
             vx[j] = vx[j] + nx*mult;
             vy[j] = vy[j] + ny*mult;
           }
+
+          disks[i].displaceX(t*vx[i]);
+          disks[i].displaceY(t*vy[i]);
+          disks[j].displaceX(t*vx[j]);
+          disks[j].displaceY(t*vy[j]);
         }
       }
     }

@@ -17,7 +17,7 @@ class ManyBody implements ActionListener {
     jfrm.setResizable(false);
     jfrm.setVisible(true);
 
-    int delay = 4;
+    int delay = 50;
     Timer timer = new Timer(delay,this);
     while(true) {
       timer.start();
